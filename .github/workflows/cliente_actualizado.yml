@@ -1,0 +1,38 @@
+name: Cliente Actualizado (Issue)
+
+on:
+  issues:
+    types: [opened, labeled]
+  workflow_dispatch:
+
+jobs:
+  procesar-actualizacion:
+    name: Procesar actualización de cliente
+    runs-on: ubuntu-latest
+    if: |
+      github.event_name == 'workflow_dispatch' ||
+      contains(github.event.issue.labels.*.name, 'cliente-actualizado')
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - run: pip install -r requirements.txt
+
+      - name: Ejecutar pruebas de actualización
+        run: pytest tests/ -v -k "actualizar"
+
+      - name: Comentar en issue
+        if: github.event_name == 'issues'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: '✅ Workflow **cliente_actualizado** ejecutado. Pruebas de actualización: OK.'
+            })

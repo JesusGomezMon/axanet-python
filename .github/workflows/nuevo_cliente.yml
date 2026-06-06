@@ -1,0 +1,72 @@
+name: Nuevo Cliente (Issue)
+
+on:
+  issues:
+    types: [opened, labeled]
+  workflow_dispatch:
+    inputs:
+      nombre_cliente:
+        description: "Nombre del nuevo cliente"
+        required: true
+        default: "Cliente Demo"
+      correo:
+        description: "Correo del cliente"
+        required: true
+        default: "demo@axanet.com"
+      telefono:
+        description: "Teléfono (10 dígitos)"
+        required: true
+        default: "5512345678"
+
+jobs:
+  procesar-nuevo-cliente:
+    name: Procesar solicitud de nuevo cliente
+    runs-on: ubuntu-latest
+    if: |
+      github.event_name == 'workflow_dispatch' ||
+      contains(github.event.issue.labels.*.name, 'nuevo-cliente')
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Configurar Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Instalar dependencias
+        run: pip install -r requirements.txt
+
+      - name: Registrar solicitud
+        run: |
+          echo "============================================"
+          echo "  SOLICITUD: Creación de nuevo cliente"
+          echo "  Issue: #${{ github.event.issue.number || 'manual' }}"
+          echo "  Solicitante: ${{ github.event.issue.user.login || github.actor }}"
+          echo "============================================"
+
+      - name: Validar datos de ejemplo
+        run: |
+          python -c "
+          import sys
+          sys.path.insert(0, 'src')
+          from cliente import Cliente
+          c = Cliente(1, 'Cliente Test', 'test@axanet.com', '5512345678')
+          print(f'Validacion OK: {c.nombre}')
+          "
+
+      - name: Ejecutar pruebas CRUD
+        run: pytest tests/ -v -k "crear"
+
+      - name: Comentar en issue
+        if: github.event_name == 'issues'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: '✅ Workflow **nuevo_cliente** ejecutado.\n\n- Validación de datos: OK\n- Pruebas CRUD: OK\n\nEl equipo de desarrollo procesará la solicitud.'
+            })

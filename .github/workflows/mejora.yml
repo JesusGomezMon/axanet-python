@@ -1,0 +1,41 @@
+name: Mejora (Issue)
+
+on:
+  issues:
+    types: [opened, labeled]
+  workflow_dispatch:
+
+jobs:
+  procesar-mejora:
+    name: Evaluar solicitud de mejora
+    runs-on: ubuntu-latest
+    if: |
+      github.event_name == 'workflow_dispatch' ||
+      contains(github.event.issue.labels.*.name, 'mejora')
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - run: pip install -r requirements.txt
+
+      - name: Suite completa de pruebas
+        run: pytest tests/ -v
+
+      - name: Análisis de código
+        run: python -m ruff check src/ tests/
+
+      - name: Comentar en issue
+        if: github.event_name == 'issues'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: '✅ Workflow **mejora** ejecutado.\n\n- Pruebas: OK\n- Linter: OK\n\nListo para revisión en rama `feature/mejora`.'
+            })
