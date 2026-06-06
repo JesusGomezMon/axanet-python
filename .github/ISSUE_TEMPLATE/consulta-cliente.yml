@@ -1,0 +1,15 @@
+name: Consulta de Cliente
+description: Solicitud de consulta de información de un cliente
+title: "[Consulta] "
+labels: ["consulta-cliente", "operacion"]
+body:
+  - type: input
+    id: identificador
+    attributes:
+      label: Nombre o ID del cliente a consultar
+    validations:
+      required: true
+  - type: textarea
+    id: motivo
+    attributes:
+      label: Motivo de la consulta

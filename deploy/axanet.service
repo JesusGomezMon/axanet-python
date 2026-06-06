@@ -1,0 +1,15 @@
+[Unit]
+Description=Axanet Python - Gestión de Clientes
+After=network.target
+
+[Service]
+Type=simple
+User=ec2-user
+WorkingDirectory=/opt/axanet-python
+Environment=PATH=/home/ec2-user/.local/bin:/usr/local/bin:/usr/bin
+ExecStart=/usr/bin/python3 /opt/axanet-python/src/web.py
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,14 @@
+# CODEOWNERS - Roles DevOps en GitHub
+# https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners
+
+# Desarrolladores - revisión de código y features
+/src/                    @JesusGomezMon
+/tests/                  @JesusGomezMon
+
+# DevOps / TI - infraestructura y despliegue
+/deploy/                 @JesusGomezMon
+/.github/workflows/      @JesusGomezMon
+
+# Documentación - accesible a todo el equipo
+/docs/                   @JesusGomezMon
+*.md                     @JesusGomezMon

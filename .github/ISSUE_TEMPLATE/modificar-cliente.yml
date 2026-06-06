@@ -1,0 +1,28 @@
+name: Modificar Cliente
+description: Solicitud para actualizar datos de un cliente existente
+title: "[Actualizar] "
+labels: ["cliente-actualizado", "operacion"]
+body:
+  - type: input
+    id: identificador
+    attributes:
+      label: Nombre o ID del cliente
+    validations:
+      required: true
+  - type: dropdown
+    id: campo
+    attributes:
+      label: Campo a modificar
+      options:
+        - correo
+        - telefono
+        - direccion
+        - nombre
+    validations:
+      required: true
+  - type: input
+    id: nuevo_valor
+    attributes:
+      label: Nuevo valor
+    validations:
+      required: true

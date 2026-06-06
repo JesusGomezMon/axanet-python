@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block title %}Clientes — Axanet{% endblock %}
+{% block content %}
+<div class="card">
+    <div style="display:flex;justify-content:space-between;align-items:center;">
+        <h2>Lista de clientes ({{ clientes|length }})</h2>
+        <a href="{{ url_for('crear') }}" class="btn btn-primary">+ Nuevo cliente</a>
+    </div>
+    {% if clientes %}
+    <table>
+        <thead>
+            <tr><th>ID</th><th>Nombre</th><th>Correo</th><th>Teléfono</th><th>Acciones</th></tr>
+        </thead>
+        <tbody>
+            {% for c in clientes %}
+            <tr>
+                <td>{{ c.id_cliente }}</td>
+                <td>{{ c.nombre }}</td>
+                <td>{{ c.correo }}</td>
+                <td>{{ c.telefono }}</td>
+                <td>
+                    <a href="{{ url_for('editar', identificador=c.id_cliente) }}" class="btn btn-secondary btn-sm">Editar</a>
+                    <form method="POST" action="{{ url_for('eliminar', identificador=c.id_cliente) }}" style="display:inline;"
+                          onsubmit="return confirm('¿Eliminar a {{ c.nombre }}?')">
+                        <button type="submit" class="btn btn-danger btn-sm">Eliminar</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <p style="margin-top:1rem;color:#64748b;">No hay clientes registrados. <a href="{{ url_for('crear') }}">Crear el primero</a>.</p>
+    {% endif %}
+</div>
+{% endblock %}

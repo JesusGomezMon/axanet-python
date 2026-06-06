@@ -1,0 +1,18 @@
+name: Cambio de Código
+description: Solicitud de modificación al código fuente
+title: "[Código] "
+labels: ["cambio-codigo", "bug"]
+body:
+  - type: input
+    id: archivo
+    attributes:
+      label: Archivo a modificar
+      placeholder: "src/gestor.py"
+    validations:
+      required: true
+  - type: textarea
+    id: descripcion
+    attributes:
+      label: Descripción del cambio
+    validations:
+      required: true

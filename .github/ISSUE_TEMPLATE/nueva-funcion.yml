@@ -1,0 +1,18 @@
+name: Nueva Función
+description: Solicitud de nueva funcionalidad para la aplicación
+title: "[Feature] "
+labels: ["nueva-funcion", "feature"]
+body:
+  - type: input
+    id: nombre_funcion
+    attributes:
+      label: Nombre de la función
+      placeholder: "exportar_clientes_csv"
+    validations:
+      required: true
+  - type: textarea
+    id: descripcion
+    attributes:
+      label: Descripción y caso de uso
+    validations:
+      required: true

@@ -1,0 +1,20 @@
+name: Solicitud de Mejora
+description: Propuesta de mejora a la aplicación Axanet
+title: "[Mejora] "
+labels: ["mejora", "enhancement"]
+body:
+  - type: textarea
+    id: descripcion
+    attributes:
+      label: Descripción de la mejora
+      placeholder: "Optimizar rendimiento de la tabla hash..."
+    validations:
+      required: true
+  - type: dropdown
+    id: prioridad
+    attributes:
+      label: Prioridad
+      options:
+        - Baja
+        - Media
+        - Alta

@@ -1,0 +1,36 @@
+name: Nuevo Cliente
+description: Solicitud para crear un nuevo cliente en el sistema
+title: "[Cliente] "
+labels: ["nuevo-cliente", "operacion"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Use este formulario para solicitar la creación de un nuevo cliente.
+        El workflow `nuevo_cliente.yml` se activará automáticamente.
+  - type: input
+    id: nombre
+    attributes:
+      label: Nombre del cliente
+      placeholder: "Juan Pérez"
+    validations:
+      required: true
+  - type: input
+    id: correo
+    attributes:
+      label: Correo electrónico
+      placeholder: "juan@empresa.com"
+    validations:
+      required: true
+  - type: input
+    id: telefono
+    attributes:
+      label: Teléfono (10 dígitos)
+      placeholder: "5512345678"
+    validations:
+      required: true
+  - type: textarea
+    id: direccion
+    attributes:
+      label: Dirección
+      placeholder: "Calle, número, ciudad"
